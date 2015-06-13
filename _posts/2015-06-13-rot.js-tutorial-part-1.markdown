@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Building Roguelike Games with rot.js"
+title:  "Building Roguelike Games with rot.js - Part 1"
 date:   2015-06-13 14:21:00
 categories: rot.js javascript roguelikes tutorials
 ---
