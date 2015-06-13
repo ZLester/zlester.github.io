@@ -1,0 +1,86 @@
+---
+layout: post
+title:  "Building rogulike games in rot.js - Part 1"
+date:   2015-06-13 14:21:00
+categories: rot.js javascript roguelikes tutorials
+---
+I recently discovered rot.js, an awesome javascript library for creating roguelikes. I saw a couple tutorials for it online, though thought it would be useful for both myself and anyone else that wanted to learn how to use the library to create a tutorial series as my inaugural post series on this brand-spankin' new blog.
+
+You can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub] and look at the documentation for the library at his [github.io site][rot.js]. I'll be uploading the tutorial code over at my own [github page][projectgithub]
+
+First, we'll set up the index.html page so as to import both the library itself (rot.js) along with game.js, where the entirety of our game's code will be stored (for now).
+
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>rot.js Tutorial Roguelike</title>
+  </head>
+  <body>
+    <script src="./rot.js"></script>
+    <script src="./game.js"></script>
+  </body>
+</html>
+{% endhighlight %}
+
+Note that "./rot.js" is a relative path meaning "look in the same folder that this file is currently in for rot.js". 
+
+I've included a copy of the library in my tutorial's [github repo][projectgithub], though the most up to date copy of the both the library and its minified version can always be found on the project's [github repo][ozgithub].
+
+{% highlight html %}
+// game.js
+
+// Parameter stores
+var gameOptions = {
+	width: 50,
+	height: 30
+};
+
+var colors = {
+	white: ROT.Color.toRGB([255,255,255]),
+	black: ROT.Color.toRGB([0,0,0]),
+	red: ROT.Color.toRGB([255,0,0]),
+	green: ROT.Color.toRGB([0,255,0]),
+};
+
+var colorCombos = {};
+
+// Helper functions
+
+var createDisplay = function(displayWidth, displayHeight) {
+	return new ROT.Display({width: displayWidth, height: displayHeight});
+};
+
+var createContainer = function(displayObject) {
+	return displayObject.getContainer();
+};
+
+var createColors = function(foregroundColor, backgroundColor) {
+	return "%c{" + foregroundColor + "}%b{" + backgroundColor + "}";
+};
+
+var createText = function(colors, string) {
+	return colors + string;
+};
+
+// Game Setup
+var init = function() {
+	var display = createDisplay(gameOptions.width,gameOptions.height);
+	var container = createContainer(display);
+	document.body.appendChild(container);
+
+	colorCombos.whiteBlack = createColors(colors.white, colors.black);
+	colorCombos.greenRed = createColors(colors.green, colors.red);
+
+	var title = createText(colorCombos.greenRed, "rot.js Tutorial");
+	var greeting = createText(colorCombos.whiteBlack, "Hello, World!");
+	display.drawText(0, 0, title);
+	display.drawText(18, 14, greeting);
+};
+
+init();
+{% endhighlight %}
+
+[rot.js]: http://ondras.github.io/rot.js/hp/
+[ozgithub]: https://github.com/ondras/rot.js
+[projectgithub]: https://github.com/ZLester/rot.js-Tutorial
