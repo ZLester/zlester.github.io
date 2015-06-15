@@ -1,12 +1,16 @@
 ---
 layout: post
 title:  "Building Roguelike Games with rot.js - Part 1"
-date:   2015-06-13 14:21:00
+date:   2015-06-13 14:21:01
 categories: rot.js javascript roguelikes tutorials
 ---
-I recently discovered rot.js, an awesome javascript library for creating roguelikes. I saw a couple tutorials for it online, though thought it would be useful for both myself and anyone else that wanted to learn how to use the library to create a tutorial series as my inaugural post series on this brand-spankin' new blog.
+While browsing through a bunch of javascript game engines I discovered rot.js, an awesome library for creating roguelikes. As making my own roguelike has been a goal of mine for a long time, I thought it'd be fun to check out. I saw a couple tutorials for rot online, though thought it would be useful for both myself and anyone else that wanted to learn how to use the library to create a tutorial series of my own. As such, this will be my inaugural post series for this brand-spankin' new blog.
 
-You can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub] and look at the documentation for the library at his [github.io site][rot.js]. I'll be uploading the tutorial code over at my own [github page][projectgithub]
+You can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub] or look at the documentation over at the project's [github.io site][rot.js]. I'll be uploading the complete tutorial code over at my own [github page][projectgithub]
+
+***
+
+### Setting up index.html
 
 First, we'll set up the index.html page so as to import both the library itself (rot.js) along with game.js, where the entirety of our game's code will be stored (for now).
 
@@ -27,7 +31,9 @@ Note that "./rot.js" is a relative path meaning "look in the same folder that th
 
 I've included a copy of the library in my tutorial's [github repo][projectgithub], though the most up to date copy of the both the library and its minified version can always be found on the project's [github repo][ozgithub].
 
-{% highlight html %}
+### Setting up game.js
+
+{% highlight javascript %}
 // game.js
 
 // Parameter stores
@@ -36,6 +42,8 @@ var gameOptions = {
 	height: 30
 };
 
+{% endhighlight %}
+{% highlight javascript %}
 var colors = {
 	white: ROT.Color.toRGB([255,255,255]),
 	black: ROT.Color.toRGB([0,0,0]),
