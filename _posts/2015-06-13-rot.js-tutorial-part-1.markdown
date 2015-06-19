@@ -4,15 +4,13 @@ title:  "Building Roguelike Games with rot.js - Part 1"
 date:   2015-06-13 14:21:01
 categories: rot.js javascript roguelikes tutorials
 ---
-While browsing through a bunch of javascript game engines I discovered rot.js, an awesome library for creating roguelikes. As making my own roguelike has been a goal of mine for a long time, I thought it'd be fun to check out. I saw a couple tutorials for rot online, though thought it would be useful for both myself and anyone else that wanted to learn how to use the library to create a tutorial series of my own. As such, this will be my inaugural post series for this brand-spankin' new blog.
+I recently discovered rot.js, an awesome javascript library for creating roguelike games. I saw a couple tutorials for it online, though thought it would be useful for both myself and anyone else that wanted to learn how to use the library to create a tutorial series as the inaugural post series for my brand-spankin' new blog.
 
-You can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub] or look at the documentation over at the project's [github.io site][rot.js]. I'll be uploading the complete tutorial code over at my own [github page][projectgithub]
-
-***
+You can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub], look at the documentation for the library at his [github.io site][rot.js], or check out a complete copy of the tutorial code itself over at my own [github page][projectgithub].
 
 ### Setting up index.html
 
-First, we'll set up the index.html page so as to import both the library itself (rot.js) along with game.js, where the entirety of our game's code will be stored (for now).
+First up we'll set up the index.html page so as to import both the library itself (rot.js) along with the game code (game.js). 
 
 {% highlight html %}
 <!DOCTYPE html>
@@ -27,11 +25,13 @@ First, we'll set up the index.html page so as to import both the library itself 
 </html>
 {% endhighlight %}
 
-Note that "./rot.js" is a relative path meaning "look in the same folder that this file is currently in for rot.js". 
+Note that "./rot.js" and "./game.js" are relative paths that tell the browser to "look in the same folder that index.html is currently in for rot.js and game.js". 
 
-I've included a copy of the library in my tutorial's [github repo][projectgithub], though the most up to date copy of the both the library and its minified version can always be found on the project's [github repo][ozgithub].
+### Creating our game's logic
 
-### Setting up game.js
+Next up is game.js. Note that we'll be refactoring both the game code and file structure in later tutorials, but for now will be leaving all of the game's logic in this script.
+
+First, we declare three parameter stores to hold our game's options (just the width and height of the game window for the time being), a few colors using the ROT.Color.toRGB function, and a color combinations store, which we'll leave empty for now.
 
 {% highlight javascript %}
 // game.js
@@ -43,6 +43,14 @@ var gameOptions = {
 };
 
 {% endhighlight %}
+
+Note that each color needs to be set with the ROT.Color.toRGB function, which accepts an array of RGB values as its only parameter. For instance, we'd create blue by passing in [0,0,255]:
+{% highlight javascript %}
+var blue = ROT.Color.toRGB([0,0,255])
+{% endhighlight %}
+
+I've only included colors we'll be using in our initial Hello World application for now.
+
 {% highlight javascript %}
 var colors = {
 	white: ROT.Color.toRGB([255,255,255]),
@@ -53,6 +61,11 @@ var colors = {
 
 var colorCombos = {};
 
+{% endhighlight %}
+
+Next, we'll be creating our helper functions that will create our game's display, the display's container, foreground/background colors, and text to append to the game display.
+
+{% highlight javascript %}
 // Helper functions
 
 var createDisplay = function(displayWidth, displayHeight) {
@@ -62,6 +75,13 @@ var createDisplay = function(displayWidth, displayHeight) {
 var createContainer = function(displayObject) {
 	return displayObject.getContainer();
 };
+{% endhighlight %}
+
+Note that createColors accepts two ROT.Color.toRGB()-created colors as its parameters. Since we've already created several colors in the colors parameter stores, we can pass them to our helper function using dot notation:
+
+{% highlight javascript %}
+var blueFGwhiteBG = createColors(colors.blue, colors.white);
+{% endhighlight %}
 
 var createColors = function(foregroundColor, backgroundColor) {
 	return "%c{" + foregroundColor + "}%b{" + backgroundColor + "}";
@@ -70,7 +90,11 @@ var createColors = function(foregroundColor, backgroundColor) {
 var createText = function(colors, string) {
 	return colors + string;
 };
+{% endhighlight %}
 
+Finally, we declare our initialization function, which creates our game display (accessing the width and height parameters from our previously declared gameOptions parameter store), creates a container for our display, and appends the display to our index.html page.
+
+{% highlight javascript %}
 // Game Setup
 var init = function() {
 	var display = createDisplay(gameOptions.width,gameOptions.height);
@@ -88,6 +112,8 @@ var init = function() {
 
 init();
 {% endhighlight %}
+
+
 
 [rot.js]: http://ondras.github.io/rot.js/hp/
 [ozgithub]: https://github.com/ondras/rot.js
