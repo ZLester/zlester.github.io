@@ -41,7 +41,6 @@ var gameOptions = {
 	width: 50,
 	height: 30
 };
-
 {% endhighlight %}
 
 Note that each color needs to be set with the ROT.Color.toRGB function, which accepts an array of RGB values as its only parameter. For instance, we'd create blue by passing in [0,0,255]:
@@ -60,7 +59,6 @@ var colors = {
 };
 
 var colorCombos = {};
-
 {% endhighlight %}
 
 Next, we'll be creating our helper functions that will create our game's display, the display's container, foreground/background colors, and text to append to the game display.
@@ -83,6 +81,7 @@ Note that createColors accepts two ROT.Color.toRGB()-created colors as its param
 var blueFGwhiteBG = createColors(colors.blue, colors.white);
 {% endhighlight %}
 
+{% highlight javascript %}
 var createColors = function(foregroundColor, backgroundColor) {
 	return "%c{" + foregroundColor + "}%b{" + backgroundColor + "}";
 };
