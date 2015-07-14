@@ -166,12 +166,9 @@ var Game = {
   init: function() {
     this.display = this.createDisplay(this.gameOptions.width, this.gameOptions.height);
     this.container = this.createContainer(this.display);
-    
     document.body.appendChild(this.container);
-
     this.colorCombos.whiteBlack = this.createColors(this.colors.white, this.colors.black);
     this.colorCombos.greenRed = this.createColors(this.colors.green, this.colors.red);
-
     var title = this.createText(this.colorCombos.greenRed, "rot.js Tutorial");
     this.display.drawText(0, 0, title);
   }
