@@ -1,10 +1,9 @@
 ---
 layout: post
 title:  "Building Roguelike Games with rot.js - Part 2"
-date:   2015-06-19 14:21:01
+date:   2015-06-19 14:09:00
 categories: rot.js javascript roguelikes tutorials
 ---
-
 Welcome to Part 2 of my rot.js game tutorial. As always, you can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub], look at the documentation for the library at his [github.io site][rot.js], and find the tutorial code over at my own [github page][projectgithub].
 
 In [Part 1][part1] of the tutorial, we creted a basic "hello world" application in rot.js. This tutorial will about refactoring the previous code into a more object-oriented approach, which will make our code more modular as our game grows and also have the added benefit of keeping as few variables as possible in the global scope.
