@@ -8,7 +8,7 @@ Welcome to Part 2 of my rot.js game tutorial. As always, you can check out the s
 
 In [Part 1][part1] of the tutorial, we creted a basic "hello world" application in rot.js. This tutorial will about refactoring the previous code into a more object-oriented approach, which will make our code more modular as our game grows and also have the added benefit of keeping as few variables as possible in the global scope.
 
-First up will be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function:
+First up will be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function
 
 {% highlight javascript %}
 var Game = {
