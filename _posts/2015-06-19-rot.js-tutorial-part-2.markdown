@@ -117,7 +117,7 @@ Note that I've removed our "Hello World" declaration in preparation for us actua
 
 While the index.html for our game has remained the same, our newly refactored game.js will be as follows:
 
-{% highlight javascript}
+{% highlight javascript %}
 
 // game.js
 
