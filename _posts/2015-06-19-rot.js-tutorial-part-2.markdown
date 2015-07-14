@@ -1,0 +1,192 @@
+---
+layout: post
+title:  "Building Roguelike Games with rot.js - Part 2"
+date:   2015-06-19 14:21:01
+categories: rot.js javascript roguelikes tutorials
+---
+
+Welcome to Part 2 of my rot.js game tutorial. As always, you can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub], look at the documentation for the library at his [github.io site][rot.js], and find the tutorial code over at my own [github page][projectgithub].
+
+In [Part 1][part1] of the tutorial, we creted a basic "hello world" application in rot.js. This tutorial will about refactoring the previous code into a more object-oriented approach, which will make our code more modular as our game grows and also have the added benefit of keeping as few variables as possible in the global scope.
+
+First up will be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function:
+
+{% highlight javascript %}
+var Game = {
+
+// All Previous Code
+
+};
+
+init();
+{% endhighlight %}
+
+Next, we'll have to convert all of our previous function declarations into methods for our new game object.
+
+Instead of using the var keyword to declare functions like our previous code in part 1
+
+{% highlight javascript %}
+
+var createDisplay = function(displayWidth, displayHeight) {
+  return new ROT.Display({width: displayWidth, height: displayHeight});
+};
+
+var createContainer = function(displayObject) {
+  return displayObject.getContainer();
+};
+
+{% endhighlight %}
+
+We'll now make each function a method of the Game object:
+
+{% highlight javascript %}
+
+var Game = {
+  
+  // ...
+  
+  createDisplay: function(displayWidth, displayHeight) {
+    return new ROT.Display({width: displayWidth, height: displayHeight});
+  },
+
+  createContainer: function(displayObject) {
+    return displayObject.getContainer();
+  },
+  
+  // ...
+};
+
+{% endhighlight %}
+
+Be sure to note the comma after each method!
+
+For the sake of clarity, I've moved our parameter stores to below our helper functions, and intialized the variables "display" and "container" to null to show that we haven't yet created either, but expect to at some point in the future. They'll be added to our Game object in much the same way the methods were:
+
+{% highlight javascript %}
+
+// ...
+
+  display: null,
+  
+  container: null,
+  
+  gameOptions: {
+    width: 50,
+    height: 30
+  },
+
+  colors: {
+    white:  ROT.Color.toRGB([255,255,255]),
+    black: ROT.Color.toRGB([0,0,0]),
+    red: ROT.Color.toRGB([255,0,0]),
+    green: ROT.Color.toRGB([0,255,0]),
+  },
+
+  colorCombos : {},
+
+// ...
+
+{% endhighlight %}
+
+Our init function also becomes a method of Game, and as such is now invoked with Game.init() rather than simply init().
+
+{% highlight javascript %}
+
+// ...
+
+  init: function() {
+    this.display = this.createDisplay(this.gameOptions.width, this.gameOptions.height);
+    this.container = this.createContainer(this.display);
+    
+    document.body.appendChild(this.container);
+
+    this.colorCombos.whiteBlack = this.createColors(this.colors.white, this.colors.black);
+        this.colorCombos.greenRed = this.createColors(this.colors.green, this.colors.red);
+
+    var title = this.createText(this.colorCombos.greenRed, "rot.js Tutorial");
+    this.display.drawText(0, 0, title);
+  }
+
+// End of the Game Object
+};
+
+Game.init();
+
+{% endhighlight %}
+
+Note that I've removed our "Hello World" declaration in preparation for us actually adding the map to the screen in Part 3. This section of the tutorial was shorter in length than most of the others, but refactoring your code in anticipiation of future additions will always save you heartache in the long run.
+
+While the index.html for our game has remained the same, our newly refactored game.js will be as follows:
+
+{% highlight javascript}
+
+// game.js
+
+var Game = {
+
+  // Helper functions
+
+  createDisplay: function(displayWidth, displayHeight) {
+    return new ROT.Display({width: displayWidth, height: displayHeight});
+  },
+
+  createContainer: function(displayObject) {
+    return displayObject.getContainer();
+  },
+
+  createColors: function(foregroundColor, backgroundColor) {
+    return "%c{" + foregroundColor + "}%b{" + backgroundColor + "}";
+  },
+
+  createText: function(colors, string) {
+    return colors + string;
+  },
+
+  // Parameter stores
+  
+  display: null,
+  
+  container: null,
+  
+  gameOptions: {
+    width: 50,
+    height: 30
+  },
+
+  colors: {
+    white:  ROT.Color.toRGB([255,255,255]),
+    black: ROT.Color.toRGB([0,0,0]),
+    red: ROT.Color.toRGB([255,0,0]),
+    green: ROT.Color.toRGB([0,255,0]),
+  },
+
+  colorCombos : {},
+
+  // Game Setup
+  
+  init: function() {
+    this.display = this.createDisplay(this.gameOptions.width, this.gameOptions.height);
+    this.container = this.createContainer(this.display);
+    
+    document.body.appendChild(this.container);
+
+    this.colorCombos.whiteBlack = this.createColors(this.colors.white, this.colors.black);
+        this.colorCombos.greenRed = this.createColors(this.colors.green, this.colors.red);
+
+    var title = this.createText(this.colorCombos.greenRed, "rot.js Tutorial");
+    this.display.drawText(0, 0, title);
+  }
+
+};
+
+Game.init();
+
+{% endhighlight %}
+
+As always, you can check out the full source code over at my tutorial's [Github Repo][projectgithub]. If you have any questions, feel free to [drop me a line][zlgithub].
+
+[part1]: http://zlester.github.io/rot.js/javascript/roguelikes/tutorials/2015/06/13/rot.js-tutorial-part-1.html
+[rot.js]: http://ondras.github.io/rot.js/hp/
+[ozgithub]: https://github.com/ondras/rot.js
+[zlgithub]: http://github.com/ZLester
+[projectgithub]: https://github.com/ZLester/rot.js-Tutorial

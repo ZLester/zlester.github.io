@@ -112,8 +112,6 @@ var init = function() {
 init();
 {% endhighlight %}
 
-
-
 [rot.js]: http://ondras.github.io/rot.js/hp/
 [ozgithub]: https://github.com/ondras/rot.js
 [projectgithub]: https://github.com/ZLester/rot.js-Tutorial
