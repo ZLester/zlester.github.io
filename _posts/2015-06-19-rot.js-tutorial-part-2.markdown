@@ -11,6 +11,7 @@ In [Part 1][part1] of the tutorial, we creted a basic "hello world" application 
 First up we'll be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function:
 
 {% highlight javascript %}
+
 var Game = {
 
 // All Previous Code
@@ -110,12 +111,8 @@ Note that I've removed our "Hello World" declaration in preparation for us actua
 
 While the index.html for our game has remained the same, our newly refactored game.js will be as follows:
 
-<<<<<<< HEAD
 {% highlight javascript %}
 
-=======
-{% highlight javascript}
->>>>>>> Add 7/18 post
 // game.js
 
 var Game = {
