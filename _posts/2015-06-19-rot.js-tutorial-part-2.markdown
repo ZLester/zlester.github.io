@@ -8,7 +8,7 @@ Welcome to Part 2 of my rot.js game tutorial. As always, you can check out the s
 
 In [Part 1][part1] of the tutorial, we creted a basic "hello world" application in rot.js. This tutorial will about refactoring the previous code into a more object-oriented approach, which will make our code more modular as our game grows and also have the added benefit of keeping as few variables as possible in the global scope.
 
-First up will be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function
+First up we'll be wrapping all of the code we wrote in a object will arbitrarily name "Game" save for our invocation of the init function:
 
 {% highlight javascript %}
 var Game = {
@@ -25,7 +25,6 @@ Next, we'll have to convert all of our previous function declarations into metho
 Instead of using the var keyword to declare functions like our previous code in part 1
 
 {% highlight javascript %}
-
 var createDisplay = function(displayWidth, displayHeight) {
   return new ROT.Display({width: displayWidth, height: displayHeight});
 };
@@ -33,13 +32,11 @@ var createDisplay = function(displayWidth, displayHeight) {
 var createContainer = function(displayObject) {
   return displayObject.getContainer();
 };
-
 {% endhighlight %}
 
 We'll now make each function a method of the Game object:
 
 {% highlight javascript %}
-
 var Game = {
   
   // ...
@@ -54,7 +51,6 @@ var Game = {
   
   // ...
 };
-
 {% endhighlight %}
 
 Be sure to note the comma after each method!
@@ -62,7 +58,6 @@ Be sure to note the comma after each method!
 For the sake of clarity, I've moved our parameter stores to below our helper functions, and intialized the variables "display" and "container" to null to show that we haven't yet created either, but expect to at some point in the future. They'll be added to our Game object in much the same way the methods were:
 
 {% highlight javascript %}
-
 // ...
 
   display: null,
@@ -84,7 +79,6 @@ For the sake of clarity, I've moved our parameter stores to below our helper fun
   colorCombos : {},
 
 // ...
-
 {% endhighlight %}
 
 Our init function also becomes a method of Game, and as such is now invoked with Game.init() rather than simply init().
@@ -110,15 +104,18 @@ Our init function also becomes a method of Game, and as such is now invoked with
 };
 
 Game.init();
-
 {% endhighlight %}
 
 Note that I've removed our "Hello World" declaration in preparation for us actually adding the map to the screen in Part 3. This section of the tutorial was shorter in length than most of the others, but refactoring your code in anticipiation of future additions will always save you heartache in the long run.
 
 While the index.html for our game has remained the same, our newly refactored game.js will be as follows:
 
+<<<<<<< HEAD
 {% highlight javascript %}
 
+=======
+{% highlight javascript}
+>>>>>>> Add 7/18 post
 // game.js
 
 var Game = {
@@ -176,7 +173,6 @@ var Game = {
 };
 
 Game.init();
-
 {% endhighlight %}
 
 As always, you can check out the full source code over at my tutorial's [Github Repo][projectgithub]. If you have any questions, feel free to [drop me a line][zlgithub].

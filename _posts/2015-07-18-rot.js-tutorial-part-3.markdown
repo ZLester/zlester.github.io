@@ -1,0 +1,199 @@
+---
+layout: post
+title:  "Building Roguelike Games with rot.js - Part 3"
+date:   2015-07-18 11:13:00
+categories: rot.js javascript roguelikes tutorials
+---
+Welcome to Part 3 of my rot.js game tutorial. As always, you can check out the source code for the library itself over at [Ondřej Žára's github][ozgithub], look at the documentation for the library at his [github.io site][rot.js], and find the tutorial code over at my own [github page][projectgithub].
+
+In [Part 1][part1] of the tutorial, we creted a basic "hello world" application in rot.js. In [Part 2][part2], we refactored our original code to be more modular. This tutorial will about using rot.js' built-in modules to create our first randomly generated dungeon map.
+
+First up we'll be creating an empty object to store our map's values and widening our display to 80x40 to give our Map generator some room to create an interesting dungeon:
+
+{% highlight javascript %}
+ 
+// ...
+
+// Parameter stores
+
+display: null,
+
+container: null,
+
+map: {},
+
+gameOptions: {
+  width: 80,
+  height: 40
+},
+
+// ...
+
+{% endhighlight %}
+
+Next, we'll create two new helper functions, createMap and drawMap; the former to randomly generate the values for our first dungeon, and the later to render those values on the screen:
+
+{% highlight javascript %}
+
+// ...
+
+createText: function(colors, string) {
+  return colors + string;
+},
+
+createMap: function() {
+  var digger = new ROT.Map.Digger();
+  digger.create(function (x, y, ele) {
+    if (ele) {
+      return;
+    }
+    var pos = x + ',' + y;
+    // This line determines what symbol is drawn on the map
+    this.map[pos] = ".";
+  }.bind(this));
+  this.drawMap();
+},
+
+drawMap: function() {
+  for (var loc in this.map) {
+    var posArr = loc.split(",");
+    var x = parseInt(posArr[0], 10);
+    var y = parseInt(posArr[1], 10);
+    this.display.draw(x, y, this.map[loc]);
+  }
+},
+
+// ...
+
+{% endhighlight %}
+
+Note that we need to use the bind method for the callback we pass into digger in order to let the digger object know what the correct context of "this.map" is - without the .bind, the digger will think that we want to set the values of Digger.map, which doesn't exist. If the 'this' keyword looks scary to you, I highly recommend checking out [MDN's article][mdnthis] on the subject as a starting point - the "As an object method" subheading may prove the most useful. If you're unfamiliar with the bind keyword, check out the article for [bind][mdnbind] as well.
+
+Finally, we need to call createMap from within our init function:
+
+{% highlight javascript %}
+  
+  // ...
+
+  // Game Setup
+  
+  init: function() {
+    this.display = this.createDisplay(this.gameOptions.width, this.gameOptions.height);
+    this.container = this.createContainer(this.display);
+    
+    document.body.appendChild(this.container);
+
+    this.colorCombos.whiteBlack = this.createColors(this.colors.white, this.colors.black);
+        this.colorCombos.greenRed = this.createColors(this.colors.green, this.colors.red);
+
+    var title = this.createText(this.colorCombos.greenRed, "rot.js Tutorial");
+    this.display.drawText(0, 0, title);
+    this.createMap();
+  }
+
+};
+
+Game.init();
+
+{% endhighlight %}
+
+The index.html for our game has remained the same, whiel our newly refactored game.js will be as follows:
+
+{% highlight javascript}
+
+// game.js
+
+var Game = {
+
+  // Helper functions
+
+  createDisplay: function(displayWidth, displayHeight) {
+    return new ROT.Display({width: displayWidth, height: displayHeight});
+  },
+
+  createContainer: function(displayObject) {
+    return displayObject.getContainer();
+  },
+
+  createColors: function(foregroundColor, backgroundColor) {
+    return "%c{" + foregroundColor + "}%b{" + backgroundColor + "}";
+  },
+
+  createText: function(colors, string) {
+    return colors + string;
+  },
+
+  createMap: function() {
+    var digger = new ROT.Map.Digger();
+    digger.create(function (x, y, ele) {
+      if (ele) {
+        return;
+      }
+      var pos = x + ',' + y;
+      this.map[pos] = ".";
+    }.bind(this));
+    this.drawMap();
+  },
+
+  drawMap: function() {
+    for (var loc in this.map) {
+      var posArr = loc.split(",");
+      var x = parseInt(posArr[0], 10);
+      var y = parseInt(posArr[1], 10);
+      this.display.draw(x, y, this.map[loc]);
+    }
+  },
+
+  // Parameter stores
+  
+  display: null,
+  
+  container: null,
+  
+  map: {},
+
+  gameOptions: {
+    width: 80,
+    height: 40
+  },
+
+  colors: {
+    white:  ROT.Color.toRGB([255,255,255]),
+    black: ROT.Color.toRGB([0,0,0]),
+    red: ROT.Color.toRGB([255,0,0]),
+    green: ROT.Color.toRGB([0,255,0]),
+  },
+
+  colorCombos : {},
+
+  // Game Setup
+  
+  init: function() {
+    this.display = this.createDisplay(this.gameOptions.width, this.gameOptions.height);
+    this.container = this.createContainer(this.display);
+    
+    document.body.appendChild(this.container);
+
+    this.colorCombos.whiteBlack = this.createColors(this.colors.white, this.colors.black);
+        this.colorCombos.greenRed = this.createColors(this.colors.green, this.colors.red);
+
+    var title = this.createText(this.colorCombos.greenRed, "rot.js Tutorial");
+    this.display.drawText(0, 0, title);
+    this.createMap();
+  }
+
+};
+
+Game.init();
+
+{% endhighlight %}
+
+As always, you can view and download the full source code over at my tutorial's [Github Repo][projectgithub]. If you have any questions, feel free to [drop me a line][zlgithub].
+
+[part1]: http://zlester.github.io/rot.js/javascript/roguelikes/tutorials/2015/06/13/rot.js-tutorial-part-1.html
+[rot.js]: http://ondras.github.io/rot.js/hp/
+[ozgithub]: https://github.com/ondras/rot.js
+[zlgithub]: http://github.com/ZLester
+[projectgithub]: https://github.com/ZLester/rot.js-Tutorial
+[mdnthis]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
+[mdnbind]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
