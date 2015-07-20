@@ -191,6 +191,7 @@ Game.init();
 As always, you can view and download the full source code over at my tutorial's [Github Repo][projectgithub]. If you have any questions, feel free to [drop me a line][zlgithub].
 
 [part1]: http://zlester.github.io/rot.js/javascript/roguelikes/tutorials/2015/06/13/rot.js-tutorial-part-1.html
+[part2]: http://zlester.github.io/rot.js/javascript/roguelikes/tutorials/2015/06/19/rot.js-tutorial-part-2.html
 [rot.js]: http://ondras.github.io/rot.js/hp/
 [ozgithub]: https://github.com/ondras/rot.js
 [zlgithub]: http://github.com/ZLester
