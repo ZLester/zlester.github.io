@@ -99,7 +99,7 @@ Game.init();
 
 The index.html for our game has remained the same, whiel our newly refactored game.js will be as follows:
 
-{% highlight javascript}
+{% highlight javascript %}
 
 // game.js
 
